@@ -2,16 +2,18 @@ import React from 'react';
 
 export default class Card extends React.Component {
     constructor(props) {
+        // console.log('constructor', props);
         super(props);
     }
 
     render() {
+        // console.log(this.props);
         let classname = 'card ' + this.getClassForCardNumber(this.props.number);
         if(!this.props.playable) {
             classname += ' disabled';
         }
         return (
-            <div className={classname}></div>
+            <div className={classname} key={this.props.id}></div>
         );
     }
 

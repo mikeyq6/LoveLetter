@@ -635,6 +635,13 @@ th {
   display: inline-block;
   margin-right: 10px;
 }
+.player {
+  display: inline-block;
+  width: 50%;
+}
+.player .card {
+  margin-right: -70px;
+}
 .c_guard {
   background-image: url(../../media/1-guard-v1.jpg);
 }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { fetchAppsIfNeeded } from '../redux/actions'
 
 import Game from './game'
-import Card from './card'
 
 class App extends Component {
 
