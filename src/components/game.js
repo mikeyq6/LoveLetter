@@ -11,31 +11,41 @@ export default class Game extends React.Component {
             players : [
                 { 
                     name: 'Bob',
-                    lastPlayedCard: {},
+                    lastPlayedCard: null,
+                    currentCards: [],
                     playedCards: [],
                     status: 'active'
                 },
                 { 
                     name: 'Fred',
-                    lastPlayedCard: {},
+                    lastPlayedCard: null,
+                    currentCards: [],
                     playedCards: [],
                     status: 'active'
+                },
+                { 
+                    name: 'Aldrick',
+                    lastPlayedCard: null,
+                    currentCards: [],
+                    playedCards: [],
+                    status: 'turn'
                 }
             ],
             deck : [],
             playedCards : []
         };
-
-        this.start();
+        this.handleDealClicked = this.handleDealClicked.bind(this);
     }
 
     start() {
-        let newState = this.state;
-        newState.isRunning = true;
-        this.state = newState;
+        this.setState({ isRunning: true});
 
         this.shuffleDeck();
-        this.setupFakeData();
+        // this.setupFakeData();
+    }
+
+    componentDidMount() {
+        this.start();
     }
 
     setupFakeData() {
@@ -45,19 +55,21 @@ export default class Game extends React.Component {
         newState.players[0].playedCards.push(this.nextCard());
         newState.players[1].playedCards.push(this.nextCard());
         newState.players[1].playedCards.push(this.nextCard());
+        newState.players[2].currentCards.push(this.nextCard());
+        newState.players[2].currentCards.push(this.nextCard());
 
-        this.state = newState;
+        this.setState({players: newState.players});
     }
 
     nextCard() {
         let newState = this.state;
-        let card = this.state.deck.pop();
-        this.state = newState;
+        let card = newState.deck.pop();
+        // console.log(card);
+        this.setState({deck: newState.deck});
         return card;
     }
 
     shuffleDeck() {
-        let newState = this.state;
         let deckCards = [
             { 
                 id: '1_1',
@@ -150,8 +162,7 @@ export default class Game extends React.Component {
         }
         deckCards.pop(); // Remove one card randomly
 
-        newState.deck = deckCards;
-        this.state = newState;
+        this.setState({deck: deckCards});
     }
 
     renderCard(card) {
@@ -161,12 +172,11 @@ export default class Game extends React.Component {
     }
 
     render() {
-        console.log(this.state);
 
         if(this.state.isRunning) {
             return (
                 <div>
-                    <h1>Game</h1>
+                    <h1>Love Letter</h1>
                     <h2>Players</h2>
                     <div className="players">
                         {this.renderPlayerList(this.state.players)}
@@ -179,12 +189,13 @@ export default class Game extends React.Component {
                     <div className="cardList">
                         {this.renderCards(this.state.playedCards)}
                     </div>
+                    <button key='dealButton' onClick={this.handleDealClicked}>Deal!</button>
                 </div>
             );
         } else {
             return (
                 <div>
-                    
+                    <h1>Else!</h1>
                 </div>
             )
         }
@@ -195,15 +206,11 @@ export default class Game extends React.Component {
     
         for(const player of players) {
             listitems.push(
-                <Player isCurrentPlayer={false} key={player.name} name={player.name} playedCards={player.playedCards} status={player.status} handleAddPlayer={this.handleAddPlayer}></Player>
+                <Player isCurrentPlayer={player.name == 'Aldrick'} key={player.name} name={player.name} currentCards={player.currentCards} playedCards={player.playedCards} status={player.status} handleAddPlayer={this.handleAddPlayer}></Player>
             );
         }
     
         return listitems;
-    }
-
-    handleAddPlayer(e) {
-
     }
 
     renderCards(cards) {
@@ -215,4 +222,15 @@ export default class Game extends React.Component {
 
         return carditems;
     }
+
+    // #region Events
+    handleAddPlayer(e) {
+
+    }
+
+    handleDealClicked(e) {
+        // console.log('state here: ', this.state);
+        this.setupFakeData();
+    }
+    // #endregion
 }  

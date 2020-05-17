@@ -1,4 +1,6 @@
-const path = require('path');module.exports = {
+const path = require('path');
+module.exports = {
+    mode: 'development',
     entry: {
         client: './src/client.js',
         bundle: './src/bundle.js'

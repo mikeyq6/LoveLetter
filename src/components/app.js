@@ -18,7 +18,7 @@ class App extends Component {
 
     return (
        <>
-         <Game></Game>
+         <Game key='game'></Game>
        </>
     );
   }

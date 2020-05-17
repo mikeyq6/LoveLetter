@@ -642,6 +642,13 @@ th {
 .player .card {
   margin-right: -70px;
 }
+.player .card.selected {
+  opacity: 0.4;
+  transition: .3s ease;
+}
+.player.current .card {
+  margin-right: 10px;
+}
 .c_guard {
   background-image: url(../../media/1-guard-v1.jpg);
 }

@@ -4,21 +4,42 @@ export default class Card extends React.Component {
     constructor(props) {
         // console.log('constructor', props);
         super(props);
+
+        this.state = {
+            isToggleOn : false
+        };
+        this.handleCardClick = this.handleCardClick.bind(this);
     }
 
     render() {
-        // console.log(this.props);
-        let classname = 'card ' + this.getClassForCardNumber(this.props.number);
-        if(!this.props.playable) {
-            classname += ' disabled';
+        // console.log('props: ', this.props);
+        // console.log('state: ', this.state);
+        let classname = 'card ';
+        classname += this.getClassForCardNumber(this.props.number);
+        if(this.state.isToggleOn) {
+            classname += ' selected';
         }
-        return (
-            <div className={classname} key={this.props.id}></div>
-        );
+        if(this.props.playable) {
+            return (
+                <div className={classname} key={this.props.id} onClick={this.handleCardClick}></div>
+            );
+        } else {
+            classname += ' disabled';
+            return (
+                <div className={classname} key={this.props.id}></div>
+            );
+        }
+    }
+
+    handleCardClick(e) {
+        let newState = this.state;
+        newState.isToggleOn = !this.state.isToggleOn;
+        this.setState(newState);
     }
 
     getClassForCardNumber(number) {
         let classname = '';
+        // console.log(number);
         switch(number) {
             case 1:
                 classname = 'c_guard'; break;
