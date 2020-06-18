@@ -8,6 +8,8 @@ orbs:
 jobs:
   build:
 #    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.3.7-stretch-node
     executor:
       name: node/default
     steps:
