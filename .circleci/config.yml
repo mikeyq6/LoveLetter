@@ -1,17 +1,67 @@
 version: 2.1
+
+defaults: &defaults
+  working_directory: /tmp/cci
+
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build:
+    <<: *defaults
     executor:
       name: node/default
     steps:
+      - run: mkdir -p workspace
+      - run: echo export ORG_USERNAME=circle_build_${CIRCLE_BUILD_NUM}_${RANDOM} >> $BASH_ENV
+      - run: echo "export ORG_USERNAME=$ORG_USERNAME" >> workspace/shared-job-vars
       - checkout
       - node/with-cache:
           steps:
             - run: npm install
             - run: npm test
+      - persist_to_workspace:
+        root: workspace
+        paths:
+          - shared-job-vars
+  test-1:
+    <<: *defaults
+    executor:
+      name: node/default
+    steps:
+      - attach_workspace:
+          at: /tmp/cci/workspace
+      - run: cat workspace/shared-job-vars >> $BASH_ENV
+      - run: echo ORG_USERNAME=$ORG_USERNAME
+
+  test-2:
+    <<: *defaults
+    executor:
+      name: node/default
+    steps:
+      - attach_workspace:
+          at: /tmp/cci/workspace
+      - run: cat workspace/shared-job-vars >> $BASH_ENV
+      - run: echo ORG_USERNAME=$ORG_USERNAME
+
+  complete:
+    <<: *defaults
+    executor:
+      name: node/default
+    steps:
+      - attach_workspace:
+          at: /tmp/cci/workspace
+      - run: cat workspace/shared-job-vars >> $BASH_ENV
+      - run: echo ORG_USERNAME=$ORG_USERNAME
+      -run echo "Complete"
+
 workflows:
     build-and-test:
       jobs:
-        - build-and-test
+        - build
+        - test-1
+        - test-2
+        - complete:
+        requires:
+          - build
+          - test-1
+          - test-2
