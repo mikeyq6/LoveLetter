@@ -51,8 +51,12 @@ workflows:
     build-and-test:
       jobs:
         - build
-        - test-1
-        - test-2
+        - test-1:
+            requires:
+              - build
+        - test-2:
+            requires:
+              - build
         - complete:
             requires:
               - build
