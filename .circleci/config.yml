@@ -52,7 +52,7 @@ jobs:
           at: /tmp/cci/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
-      -run echo "Complete"
+      - run: echo "Complete"
 
 workflows:
     build-and-test:
@@ -61,7 +61,7 @@ workflows:
         - test-1
         - test-2
         - complete:
-        requires:
-          - build
-          - test-1
-          - test-2
+          requires:
+            - build
+            - test-1
+            - test-2
