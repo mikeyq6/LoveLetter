@@ -3,6 +3,8 @@ version: 2.1
 defaults: &defaults
   working_directory: /tmp/cci
 
+orbs:
+  node: circleci/node@1.1.6
 jobs:
   build:
     <<: *defaults
