@@ -1,7 +1,7 @@
 version: 2.1
 
 defaults: &defaults
-  working_directory: /tmp/cci
+  working_directory: /tmp/cci-test
 
 orbs:
   node: circleci/node@1.1.6
@@ -29,7 +29,7 @@ jobs:
       name: node/default
     steps:
       - attach_workspace:
-          at: /tmp/cci/workspace
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
   test-2:
@@ -38,7 +38,7 @@ jobs:
       name: node/default
     steps:
       - attach_workspace:
-          at: /tmp/cci/workspace
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
   complete:
@@ -47,7 +47,7 @@ jobs:
       name: node/default
     steps:
       - attach_workspace:
-          at: /tmp/cci/workspace
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
       - run: echo "Complete"
