@@ -61,7 +61,7 @@ workflows:
         - test-1
         - test-2
         - complete:
-          requires:
-            - build
-            - test-1
-            - test-2
+            requires:
+              - build
+              - test-1
+              - test-2
