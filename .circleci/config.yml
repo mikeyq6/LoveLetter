@@ -1,13 +1,13 @@
 version: 2.1
 
-#defaults: &defaults
-#  working_directory: /tmp/cci-test
+defaults: &defaults
+  working_directory: /tmp/cci-test
 
 orbs:
   node: circleci/node@1.1.6
 jobs:
   build:
-#    <<: *defaults
+    <<: *defaults
     docker:
       - image: circleci/ruby:2.3.7-stretch-node
     executor:
@@ -26,24 +26,30 @@ jobs:
           paths:
             - shared-job-vars
   test-1:
-#    <<: *defaults
+    <<: *defaults
     executor:
       name: node/default
     steps:
+      - attach_workspace:
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
   test-2:
-#    <<: *defaults
+    <<: *defaults
     executor:
       name: node/default
     steps:
+      - attach_workspace:
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
   complete:
-#    <<: *defaults
+    <<: *defaults
     executor:
       name: node/default
     steps:
+      - attach_workspace:
+          at: /tmp/cci-test/workspace
       - run: cat workspace/shared-job-vars >> $BASH_ENV
       - run: echo ORG_USERNAME=$ORG_USERNAME
       - run: echo "Complete"
